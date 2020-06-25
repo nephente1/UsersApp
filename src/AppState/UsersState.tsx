@@ -4,24 +4,32 @@ import {RowData} from '../RowData';
 
 
 interface Row {
-    itemID: number;
-    title: string;
+    // itemID: number;
+    id: number;
+    first_name: string;
+    last_name?: string;
+    email?: string;
+    avatar?: string;
 }
 
 export class UsersState {
     @observable inputTitle: string = '';
-    @observable mainItems: Array<Row>;
+    @observable usersData: Array<Row> = [];
     @observable errors: Array<string> = [];
     @observable komunikat: string = '';
     @observable counter: number = 0;
 
     constructor() {
-        this.mainItems = [];
+        //this.usersData = [];
+        this.usersData = [
+            {"id":1,"email":"george.bluth@reqres.in","first_name":"George","last_name":"Bluth","avatar":"https://s3.amazonaws.com/uifaces/faces/twitter/calebogden/128.jpg"},{"id":2,"email":"janet.weaver@reqres.in","first_name":"Janet","last_name":"Weaver","avatar":"https://s3.amazonaws.com/uifaces/faces/twitter/josephstein/128.jpg"},{"id":3,"email":"emma.wong@reqres.in","first_name":"Emma","last_name":"Wong","avatar":"https://s3.amazonaws.com/uifaces/faces/twitter/olegpogodaev/128.jpg"},{"id":4,"email":"eve.holt@reqres.in","first_name":"Eve","last_name":"Holt","avatar":"https://s3.amazonaws.com/uifaces/faces/twitter/marcoramires/128.jpg"},{"id":5,"email":"charles.morris@reqres.in","first_name":"Charles","last_name":"Morris","avatar":"https://s3.amazonaws.com/uifaces/faces/twitter/stephenmoon/128.jpg"},{"id":6,"email":"tracey.ramos@reqres.in","first_name":"Tracey","last_name":"Ramos","avatar":"https://s3.amazonaws.com/uifaces/faces/twitter/bigmancho/128.jpg"}]
+        this.counter = this.usersData.length + 1;
     }
 
     @action handleClick = () => {
         this.errors = [];
-        const regex = /^s$|^m$|^l$|^\x+s$|^\x+l$/;
+        //const regex = /^s$|^m$|^l$|^\x+s$|^\x+l$/;
+        const regex = '';
         const matchRegex = this.inputTitle.match(regex);
 
         //validation conditions
@@ -32,11 +40,12 @@ export class UsersState {
         if(!matchRegex){
             this.errors.push("not match to regex");
         };
-
-        if(this.inputTitle.length <= 2 && matchRegex && this.mainItems.map(el => el.title).includes(this.inputTitle) === false) {
-            this.mainItems.push({
-                title: this.inputTitle,
-                itemID: this.counter++
+//&& matchRegex && this.usersData.map(el => el.name).includes(this.inputTitle) === false
+        if(this.inputTitle.length > 1 ) {
+            this.usersData.push({
+                first_name: this.inputTitle,
+                id: this.counter++
+                // itemID: this.counter++
             });
             this.inputTitle = '';
         };
@@ -51,17 +60,24 @@ export class UsersState {
         this.inputTitle = e.currentTarget.value;
     }
 
-    @computed get mainList() {
-        return this.mainItems;
-    }
 
     @action handleDelete = (idToDelete: number ) => {
-        const newList = this.mainItems.filter((el) => el.itemID !== idToDelete );
-        this.mainItems = newList;
+        const newList = this.usersData.filter((el) => el.id !== idToDelete );
+        this.usersData = newList;
     }
 
     @computed get renderList() {
-        const out = Array.from(this.mainList).map((el, i) => <RowData rowTitle={el.title} itemID={el.itemID} indexID={i} handleDelete={this.handleDelete}/>)
+        //this.getData();
+        const out = Array.from(this.usersData).map((el, i) => <RowData
+            firstName={el.first_name}
+            lastName={el.last_name}
+            email={el.email}
+            avatar={el.avatar}
+            itemID={el.id}
+            indexID={i}
+            handleDelete={this.handleDelete}
+            />
+        )
         return out;
     }
 

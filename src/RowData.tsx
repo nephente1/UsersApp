@@ -1,11 +1,16 @@
 import * as React from 'react';
 import {observer} from "mobx-react";
 import {ElementTitle, Rows, DeleteButton} from './App.styles';
+import { useAppStateContext } from './AppState/AppState';
+import { Link } from 'react-router-dom';
 
 interface RowDataPropsType {
-    rowTitle: string;
-    indexID: number;
+    firstName: string;
+    lastName?: string;
+    email?: string;
+    avatar?: string;
     itemID: number;
+    indexID: number;
     handleDelete:(id: number) => void;
 }
 
@@ -18,9 +23,9 @@ export const RowData = observer((props: RowDataPropsType) => {
 
     return (
         <Rows>
-            <ElementTitle>{props.rowTitle}</ElementTitle>
+            <ElementTitle>{props.firstName}</ElementTitle>
             <ElementTitle>
-                xxx
+            <Link to={`/user/${props.itemID}`}>{props.firstName}</Link>
             </ElementTitle>
             <DeleteButton onClick={onHandleDelete}>Delete</DeleteButton>
         </Rows>
