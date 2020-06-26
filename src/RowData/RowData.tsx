@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {observer} from "mobx-react";
-import {ElementTitle, UsersTitle, Rows, LinkRow, Image, ImageWrapper} from './App.styles';
+import {ElementTitle, UsersTitle, Rows, LinkRow, Image, ImageWrapper} from './RowData.styles';
 
 interface RowDataPropsType {
     firstName: string;

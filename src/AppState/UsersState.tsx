@@ -1,6 +1,6 @@
 import React from 'react';
 import {observable, action, computed} from 'mobx';
-import {RowData} from '../RowData';
+import { RowData } from '../RowData/RowData';
 
 interface Row {
     id: number;
@@ -19,9 +19,7 @@ export class UsersState {
     @observable counter: number = 0;
     @observable renderTooltip = false;
 
-    constructor() {
-
-    }
+    //constructor() {}
 
     @action async getData() {
         try {
@@ -83,6 +81,7 @@ export class UsersState {
 
     @computed get renderList() {
         const out = Array.from(this.usersData).map((el, i) => <RowData
+            key={i}
             firstName={el.first_name}
             lastName={el.last_name}
             email={el.email}
